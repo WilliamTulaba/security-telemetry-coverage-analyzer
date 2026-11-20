@@ -1,0 +1,4 @@
+asset_name,asset_type,telemetry_source,security_domain,logging_enabled,last_event_received,expected_reporting_interval_hours,criticality,notes,source_verified,source_present
+Paper Kite Gateway,Firewall,Connection events,Network,yes,2026-11-20T14:00:00Z,24,high,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Office Wi-Fi,Access point,Association events,Network,yes,2026-11-20T14:00:00Z,24,medium,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Identity,Identity service,Sign-ins,Identity,yes,2026-11-20T14:00:00Z,24,critical,Fictional collector receipt confirmed.,yes,yes

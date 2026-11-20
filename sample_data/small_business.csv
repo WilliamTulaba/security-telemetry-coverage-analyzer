@@ -1,0 +1,13 @@
+asset_name,asset_type,telemetry_source,security_domain,logging_enabled,last_event_received,expected_reporting_interval_hours,criticality,notes,source_verified,source_present
+Paper Kite Gateway,Firewall,Connection events,Network,yes,2026-11-20T14:00:00Z,24,high,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Office Wi-Fi,Access point,Association events,Network,yes,2026-11-18T14:00:00Z,24,medium,Fictional collector has received no recent events.,yes,yes
+Paper Kite Identity,Identity service,Sign-ins,Identity,yes,2026-11-20T14:00:00Z,24,critical,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Mail,Mail service,Message trace,Email,yes,2026-11-20T14:00:00Z,24,high,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Finance Laptop,Workstation,Endpoint activity,Endpoint,yes,2026-11-20T14:00:00Z,24,high,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Design Laptop,Workstation,Endpoint activity,Endpoint,yes,2026-11-20T14:00:00Z,24,medium,Receipt is recorded but has not been independently verified.,,yes
+Paper Kite Front Desk,Workstation,Endpoint activity,Endpoint,yes,2026-11-20T14:00:00Z,24,medium,Fictional collector receipt confirmed.,yes,yes
+Paper Kite File Server,File server,File access,Server,no,,24,high,Fictional logging configuration is disabled.,,yes
+Paper Kite Backup,Backup service,Backup jobs,Recovery,yes,2026-11-20T14:00:00Z,24,high,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Storefront,Web application,Access events,Application,yes,2026-11-20T14:00:00Z,24,medium,Fictional collector receipt confirmed.,yes,yes
+Paper Kite Cloud,Cloud account,Administrative audit,Cloud,,,,critical,Expected source was not provisioned in this scenario.,,no
+Paper Kite Printer,Printer,Administrative events,Device,yes,2026-11-20T14:00:00Z,24,low,Fictional collector receipt confirmed.,yes,yes

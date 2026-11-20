@@ -1,0 +1,7 @@
+asset_name,asset_type,telemetry_source,security_domain,logging_enabled,last_event_received,expected_reporting_interval_hours,criticality,notes,source_verified,source_present
+Maple Comet Campus Edge,Firewall,Connection events,Network,yes,2026-11-18T14:00:00Z,24,critical,Fictional collector has received no recent events.,yes,yes
+Maple Comet Lab Workstation,Workstation,Endpoint activity,Endpoint,yes,2026-11-20T14:00:00Z,24,medium,Fictional collector receipt confirmed.,yes,yes
+Maple Comet Student Portal,Web application,Access events,Application,yes,2026-11-20T14:00:00Z,24,high,Receipt is recorded but has not been independently verified.,,yes
+Maple Comet Campus Identity,Identity service,Sign-ins,Identity,yes,2026-11-20T14:00:00Z,24,critical,Fictional collector receipt confirmed.,yes,yes
+Maple Comet Research Sandbox,Cloud account,Administrative audit,Cloud,,,,high,Expected source was not provisioned in this scenario.,,no
+Maple Comet Library Wi-Fi,Access point,Association events,Network,no,,24,low,Fictional logging configuration is disabled.,,yes
