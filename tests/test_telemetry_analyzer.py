@@ -58,6 +58,12 @@ class AnalysisTests(unittest.TestCase):
         self.assertEqual(finding.status, Status.UNVERIFIED)
         self.assertIn("after the reference time", finding.explanation)
 
+    def test_future_event_explained_when_logging_state_is_unknown(self):
+        source = replace(SOURCE, logging_enabled=None, last_event_received=REFERENCE + timedelta(seconds=1))
+        finding = classify(source, REFERENCE)
+        self.assertEqual(finding.status, Status.UNVERIFIED)
+        self.assertIn("after the reference time", finding.explanation)
+
     def test_freshness_threshold_boundaries(self):
         bounds = (
             (timedelta(hours=24) - timedelta(microseconds=1), Status.HEALTHY),
@@ -162,6 +168,29 @@ class InventoryTests(unittest.TestCase):
         self.assertEqual(result, 2)
         self.assertIn("must differ", stderr.getvalue())
         self.assertEqual(self.path.read_bytes(), before)
+
+    def test_cli_rejects_output_aliases_of_input(self):
+        self.write_inventory()
+        before = self.path.read_bytes()
+        symlink = self.path.with_suffix(".html")
+        hardlink = self.path.with_suffix(".md")
+        symlink.symlink_to(self.path)
+        hardlink.hardlink_to(self.path)
+        for output in (symlink, hardlink):
+            with self.subTest(output=output), redirect_stderr(io.StringIO()) as stderr:
+                self.assertEqual(main(["--input", str(self.path), "--output", str(output)]), 2)
+                self.assertIn("must differ", stderr.getvalue())
+                self.assertTrue(output.samefile(self.path))
+        self.assertEqual(self.path.read_bytes(), before)
+
+    def test_cli_handles_output_symlink_loop(self):
+        self.write_inventory()
+        output = self.path.with_suffix(".html")
+        output.symlink_to(output.name)
+        with redirect_stderr(io.StringIO()) as stderr:
+            self.assertEqual(main(["--input", str(self.path), "--output", str(output)]), 1)
+        self.assertIn("Error:", stderr.getvalue())
+        self.assertTrue(output.is_symlink())
 
     def test_cli_io_error_has_distinct_exit_code(self):
         stderr = io.StringIO()

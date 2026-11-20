@@ -214,10 +214,10 @@ def classify(source: Source, reference_time: datetime) -> Finding:
     """Apply missing, freshness, and verification rules in priority order."""
     if source.logging_enabled is False or source.source_present is False:
         status = Status.MISSING
+    elif source.last_event_received is not None and source.last_event_received > reference_time:
+        return Finding(source, Status.UNVERIFIED, "The latest event is after the reference time. Check the event timestamp and clocks.")
     elif source.logging_enabled is not True or source.last_event_received is None:
         status = Status.UNVERIFIED
-    elif source.last_event_received > reference_time:
-        return Finding(source, Status.UNVERIFIED, "The latest event is after the reference time. Check the event timestamp and clocks.")
     elif (reference_time - source.last_event_received).total_seconds() / 3600 > source.interval_hours:
         status = Status.STALE
     elif source.source_verified is True:
@@ -387,11 +387,13 @@ def main(argv: Sequence[str] | None = None) -> int:
     try:
         reference_time = parse_timestamp(args.reference_time) if args.reference_time is not None else datetime.now(timezone.utc)
         default_interval = parse_interval(args.default_interval_hours)
-        if args.output and (
-            args.input.resolve() == args.output.resolve()
-            or (args.output.exists() and args.input.exists() and args.output.samefile(args.input))
-        ):
-            raise InventoryError("The report path must differ from the input inventory path")
+        if args.output:
+            try:
+                same_file = args.output.samefile(args.input)
+            except FileNotFoundError:
+                same_file = False
+            if same_file:
+                raise InventoryError("The report path must differ from the input inventory path")
         report_format = args.format
         if report_format is None:
             if args.output:
